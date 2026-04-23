@@ -1,10 +1,10 @@
-import { PageWrapper } from './components/PageWrapper';
-import { Container } from './components/Container';
-import { Header } from './components/Header';
-import { Search } from './components/Search';
-import { Shortlist } from './components/Shortlist';
-import { PuppiesList } from './components/PuppiesList';
-import { NewPuppyForm } from './components/NewPuppyForm.jsx';
+import { PageWrapper } from './components/PageWrapper.js';
+import { Container } from './components/Container.js';
+import { Header } from './components/Header.js';
+import { Search } from './components/Search.js';
+import { Shortlist } from './components/Shortlist.js';
+import { PuppiesList } from './components/PuppiesList.js';
+import { NewPuppyForm } from './components/NewPuppyForm.js';
 
 import { puppies } from './data/puppies.js'
 
