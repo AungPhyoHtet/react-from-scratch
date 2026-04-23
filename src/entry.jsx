@@ -4,7 +4,6 @@ import { StrictMode } from "react"
 import "./app.css"
 import { App } from "./App.jsx"
 
-
 createRoot(document.getElementById('app')).render(
     <StrictMode>
         <App />
