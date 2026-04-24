@@ -6,7 +6,9 @@ import { Shortlist } from './components/Shortlist.js';
 import { PuppiesList } from './components/PuppiesList.js';
 import { NewPuppyForm } from './components/NewPuppyForm.js';
 
-import { puppies } from './data/puppies.js'
+import { puppies } from './data/puppies.js';
+import { useState } from 'react';
+import type { Puppy } from './types/index.js';
 
 export function App() {
   return (
@@ -20,6 +22,10 @@ export function App() {
 }
 
 function Main() {
+  const [liked, setLiked] = useState<Puppy['id'][]>(
+    puppies.filter((puppy) => puppy.liked).map((puppy) => puppy.id)
+  );
+
   return (
     <main>
       <div className="mt-24 grid gap-8 sm:grid-cols-2">
@@ -27,7 +33,7 @@ function Main() {
         <Shortlist />
       </div>
 
-      <PuppiesList puppies={puppies} />
+      <PuppiesList puppies={puppies} liked={liked} setLiked={setLiked} />
       <NewPuppyForm />
     </main>
   );
