@@ -7,9 +7,10 @@ import { PuppiesList } from './components/PuppiesList.js';
 import { NewPuppyForm } from './components/NewPuppyForm.js';
 
 import { puppies as puppiesData } from './data/puppies.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Puppy } from './types/index.js';
 import { LikedContext } from './context/liked-context.js';
+import { LoaderCircle } from 'lucide-react';
 
 export function App() {
   return (
@@ -31,6 +32,7 @@ function Main() {
 
   return (
     <main>
+      <ApiPuppies />
       <LikedContext value={{ liked, setLiked }}>
         <div className="mt-24 grid gap-8 sm:grid-cols-2">
           <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -42,4 +44,41 @@ function Main() {
       <NewPuppyForm puppies={puppies} setPuppies={setPuppies} />
     </main>
   );
+}
+
+function ApiPuppies() {
+  const [apiPuppies, setApiPuppies] = useState<[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    async function fetchPuppies() {
+      setIsLoading(true);
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        if (!response.ok) {
+          const errorData = await response.json();
+          setError(`${errorData.message} : ${errorData.details}`);
+          throw errorData;
+        }
+        const data = await response.json();
+        setApiPuppies(data);
+      } catch (error) {
+        console.error('Error fetching puppies:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchPuppies();
+  }, []);
+
+  return (
+    <div className="mt-12 bg-white p-6 shadow ring ring-black/5">
+      {isLoading && <LoaderCircle className="animate-spin stroke-slate-300" />}
+      {apiPuppies.length > 0 && (
+        <pre>{JSON.stringify(apiPuppies, null, 2)}</pre>
+      )}
+      {error && <p className="text-red-500">{error}</p>}
+    </div>
+  )
 }
