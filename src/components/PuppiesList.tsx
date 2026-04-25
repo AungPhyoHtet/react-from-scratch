@@ -1,13 +1,19 @@
-import type { Dispatch, SetStateAction } from "react";
-import type { Puppy } from "../types/index.js";
-import { LikeToggle } from "./LikeToggle.js";
+import type { Dispatch, SetStateAction } from 'react';
+import type { Puppy } from '../types/index.js';
+import { LikeToggle } from './LikeToggle.js';
 
-export function PuppiesList({ puppies }: {
-  puppies: Puppy[]
+export function PuppiesList({
+  searchQuery,
+  puppies,
+}: {
+  searchQuery: string;
+  puppies: Puppy[];
 }) {
   return (
     <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {puppies.map((puppy) => (
+      {puppies
+        .filter((puppy) => puppy.vibe.toLowerCase().includes(searchQuery.toLowerCase()))
+        .map((puppy) => (
         <PuppyCard key={puppy.id} puppy={puppy} />
       ))}
     </ul>
