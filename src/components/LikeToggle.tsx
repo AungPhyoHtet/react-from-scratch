@@ -1,25 +1,25 @@
-import { Heart, Loader, LoaderCircle } from 'lucide-react';
+import { Heart, LoaderCircle } from 'lucide-react';
 import type { Puppy } from '../types/index.js';
-import { useLiked } from '../context/liked-context.js';
-import { use, useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
+import { toggleLikeStatus } from '../queries/index.js';
 
-export function LikeToggle({ id }: { id: Puppy['id'] }) {
-  const { liked, setLiked } = useLiked();
+export function LikeToggle({
+  puppy,
+  setPuppies,
+}: {
+  puppy: Puppy;
+  setPuppies: Dispatch<SetStateAction<Puppy[]>>;
+}) {
   const [pending, setPending] = useState(false);
 
   return (
     <button
       className="group"
-      onClick={() => {
+      onClick={async () => {
         setPending(true);
-        setTimeout(() => {
-          setLiked((liked) =>
-            liked.includes(id)
-              ? liked.filter((likedId) => likedId !== id)
-              : [...liked, id]
-          );
-          setPending(false);
-        }, 1500);
+        const updatedPuppy = await toggleLikeStatus(puppy.id);
+        setPuppies(updatedPuppy);
+        setPending(false);
       }}
     >
       {pending ? (
@@ -27,7 +27,7 @@ export function LikeToggle({ id }: { id: Puppy['id'] }) {
       ) : (
         <Heart
           className={
-            liked.includes(id)
+            puppy.likedBy.includes(1)
               ? 'lucide lucide-heart fill-pink-500 stroke-none'
               : 'lucide lucide-heart stroke-slate-200 group-hover:stroke-slate-300'
           }

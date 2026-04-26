@@ -6,8 +6,7 @@ import { Shortlist } from './components/Shortlist.js';
 import { PuppiesList } from './components/PuppiesList.js';
 import { NewPuppyForm } from './components/NewPuppyForm.js';
 
-import { puppies as puppiesData } from './data/puppies.js';
-import { Suspense, use, useEffect, useState } from 'react';
+import { Suspense, use, useState } from 'react';
 import type { Puppy } from './types/index.js';
 import { LikedContext } from './context/liked-context.js';
 import { LoaderCircle } from 'lucide-react';
@@ -59,10 +58,10 @@ function Main() {
       <LikedContext value={{ liked, setLiked }}>
         <div className="mt-24 grid gap-8 sm:grid-cols-2">
           <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-          <Shortlist puppies={apiPuppies} />
+          <Shortlist puppies={puppies} setPuppies={setPuppies} />
         </div>
 
-        <PuppiesList searchQuery={searchQuery} puppies={apiPuppies} />
+        <PuppiesList searchQuery={searchQuery} puppies={puppies} setPuppies={setPuppies} />
       </LikedContext>
       <NewPuppyForm puppies={puppies} setPuppies={setPuppies} />
     </main>

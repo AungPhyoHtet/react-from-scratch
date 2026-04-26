@@ -5,16 +5,18 @@ import { LikeToggle } from './LikeToggle.js';
 export function PuppiesList({
   searchQuery,
   puppies,
+  setPuppies,
 }: {
   searchQuery: string;
   puppies: Puppy[];
+  setPuppies: Dispatch<SetStateAction<Puppy[]>>;
 }) {
   return (
     <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {puppies
         .filter((puppy) => puppy.trait.toLowerCase().includes(searchQuery.toLowerCase()))
         .map((puppy) => (
-        <PuppyCard key={puppy.id} puppy={puppy} />
+        <PuppyCard key={puppy.id} puppy={puppy} setPuppies={setPuppies} />
       ))}
     </ul>
   );
@@ -22,9 +24,10 @@ export function PuppiesList({
 
 type PuppyCardProps = {
   puppy: Puppy;
+  setPuppies: Dispatch<SetStateAction<Puppy[]>>;
 };
 
-export function PuppyCard({ puppy }: PuppyCardProps) {
+export function PuppyCard({ puppy, setPuppies }: PuppyCardProps) {
   return (
     <li
       key={puppy.id}
@@ -42,7 +45,7 @@ export function PuppyCard({ puppy }: PuppyCardProps) {
           <span className="text-slate-300">·</span>
           <p className="text-slate-500">{puppy.trait}</p>
         </div>
-        <LikeToggle id={puppy.id} />
+        <LikeToggle puppy={puppy} setPuppies={setPuppies} />
       </div>
     </li>
   );
