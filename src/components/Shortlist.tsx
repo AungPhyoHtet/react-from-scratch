@@ -25,7 +25,7 @@ export function Shortlist({ puppies }: { puppies: Puppy[] }) {
                 width={32}
                 alt={puppy.name}
                 className="aspect-square w-8 object-cover"
-                src={puppy.imagePath}
+                src={puppy.imageUrl}
               />
               <p className="px-3 text-sm text-slate-800">{puppy.name}</p>
               <button

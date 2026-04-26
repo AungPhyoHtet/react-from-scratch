@@ -12,7 +12,7 @@ export function PuppiesList({
   return (
     <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {puppies
-        .filter((puppy) => puppy.vibe.toLowerCase().includes(searchQuery.toLowerCase()))
+        .filter((puppy) => puppy.trait.toLowerCase().includes(searchQuery.toLowerCase()))
         .map((puppy) => (
         <PuppyCard key={puppy.id} puppy={puppy} />
       ))}
@@ -31,15 +31,16 @@ export function PuppyCard({ puppy }: PuppyCardProps) {
       className="overflow-clip rounded-lg bg-white shadow-md ring ring-black/5 hover:-translate-y-0.5"
     >
       <img
-        className="aspect-square object-cover"
+        className="aspect-square w-full object-cover"
         alt={puppy.name}
-        src={puppy.imagePath}
+        src={puppy.imageUrl}
+        onError={(e) => { e.currentTarget.src = '/images/1.jpg'; }}
       />
       <div className="gap flex items-center justify-between p-4 text-sm">
         <div className="flex items-center gap-2">
           <p className="font-semibold">{puppy.name}</p>
           <span className="text-slate-300">·</span>
-          <p className="text-slate-500">{puppy.vibe}</p>
+          <p className="text-slate-500">{puppy.trait}</p>
         </div>
         <LikeToggle id={puppy.id} />
       </div>
