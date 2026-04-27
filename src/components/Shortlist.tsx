@@ -8,7 +8,7 @@ export function Shortlist({
   setPuppies,
 }: {
   puppies: Puppy[];
-  setPuppies: Dispatch<React.SetStateAction<Puppy[]>>;
+  setPuppies: Dispatch<SetStateAction<Puppy[]>>;
 }) {
   return (
     <div>
@@ -53,8 +53,12 @@ function DeleteButton({
     <button
       onClick={async () => {
         setPending(true);
-        const newPuppies = await toggleLikeStatus(id);
-        setPuppies(newPuppies);
+        const updatedPuppy = await toggleLikeStatus(id);
+        setPuppies((prevPups) => {
+          return prevPups.map((existingPuppy) =>
+            existingPuppy.id === updatedPuppy.id ? updatedPuppy : existingPuppy
+          );
+        });
         setPending(false);
       }}
       className="group h-full border-l border-slate-100 px-2 hover:bg-slate-100"

@@ -18,7 +18,11 @@ export function LikeToggle({
       onClick={async () => {
         setPending(true);
         const updatedPuppy = await toggleLikeStatus(puppy.id);
-        setPuppies(updatedPuppy);
+        setPuppies((prevPups) => {
+          return prevPups.map((existingPuppy) =>
+            existingPuppy.id === updatedPuppy.id ? updatedPuppy : existingPuppy
+          );
+        });
         setPending(false);
       }}
     >
